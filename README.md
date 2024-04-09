@@ -68,16 +68,16 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
     -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -93,3 +93,12 @@ In this tutorial, we used lazy_static external library to define Vec and DashMap
 - Dalam Rust, variabel static memiliki keterbatasan karena harus memiliki lifetime `'static` dan juga harus bertipe `Sync`, artinya variabel tersebut harus *thread-safe* atau tidak dapat diakses oleh banyak *thread* secara bersamaan dan secara default memiliki sifat *immutable* untuk menghindari *race condition*. Untuk menangani pembatasan ini, Rust menyediakan `lazy_static` yang memungkinkan pembuatan variabel singleton, yang artinya variabel hanya akan diinisialisasi pada saat pertama kali diakses dan hanya akan ada satu *instance* dalam program. Hal ini berbeda dengan Java, di mana variabel static dapat diubah dan mungkin memerlukan penanganan khusus untuk keamanan *thread* dalam konteks *multithreading*.
 
 #### Reflection Subscriber-2
+
+Have you explored things outside of the steps in the tutorial, for example: **src/lib.rs**? If not, explain why you didn’t do so. If yes, explain things that you’ve learned from those other parts of code.
+- Dalam Rust, `src/lib.rs` biasanya sering digunakan sebagai pusat di mana elemen-elemen penting yang dibutuhkan di seluruh aplikasi didefinisikan. Sebagai contoh, pada file `lib.rs` terdapat `pub type Result<T, E=Error> = std::result::Result<T, E>;` yang berfungsi untuk mempermudah pengelolaan error dengan menetapkan `Error` sebagai tipe error default untuk tipe Result, yang merupakan pendekatan standar untuk menyederhanakan *error handling*. Selain itu, `lib.rs` mungkin juga mendefinisikan struktur seperti `ErrorResponse`, yang mewakili response kesalahan dengan status code serta pesannya. Ini mencerminkan struktur yang terorganisir dan terpusat, memfasilitasi akses ke *App Configuration*, *root url*, dan pengaturan singleton sehingga memudahkan bagian lain dari aplikasi untuk mengakses dan menggunakan informasi yang umum.
+
+Since you have completed the tutorial by now and have tried to test your notification system by spawning multiple instances of Receiver, explain how Observer pattern eases you to plug in more subscribers. How about spawning more than 1 instance of Main app, will it still be easy enough to add to the system?
+- **Observer Pattern** memudahkan saya dalam penambahan **Subscriber** baru hanya dengan menambahkannya ke dalam daftar **Observer** yang sudah ada. Ini berarti setiap kali ada **Subscriber** baru yang ingin berlangganan ke jenis produk tertentu, kita hanya perlu memasukkannya ke dalam daftar ini.  Desain penulisan kode pada pattern ini dirancang dengan *Open-Closed Principle* yang memungkinkan penambahan jenis **Subscriber** baru dengan mudah tanpa memerlukan perubahan besar pada kode yang ada. Ketika ada lebih dari satu *instance* dari *Main App*, setiap *instance* memiliki sistem pengamatan yang terpisah sehingga memungkinkan untuk beroperasi secara independen tanpa berbagi notifikasi. Namun, jika ada kebutuhan untuk berbagi notifikasi di antara berbagai *instance*, diperlukan suatu mekanisme penyimpanan bersama yang dapat diakses oleh semua *instance* tersebut. Untuk kasus instansiasi lebih dari 1 *Main App*, cukup dengan mendaftarkan **Subscriber** tersebut ke API yang relevan untuk aplikasi yang berbeda.
+
+Have you tried to make your own Tests, or enhance documentation on your **Postman collection**? If you have tried those features, tell us whether it is useful for your work (it can be your tutorial work or your Group Project).
+- Saya belum mencoba untuk membuat test atau dokumentasi untuk **Postman collection** saya.
